@@ -75,7 +75,7 @@ namespace Chimera {
         }
     }
 
-    Initialize the stuff
+	//Initialize the stuff
     void initialize_custom_chat() noexcept {
         // First, make this function do nothing
         const SigByte goodbye_code[] = { 0xC3, 0x90, 0x90, 0x90, 0x90 };
