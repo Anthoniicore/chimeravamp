@@ -76,47 +76,47 @@ namespace Chimera {
     }
 
     // Initialize the stuff
-    void initialize_custom_chat() noexcept {
-        // First, make this function do nothing
-        const SigByte goodbye_code[] = { 0xC3, 0x90, 0x90, 0x90, 0x90 };
-        write_code_s(get_chimera().get_signature("multiplayer_message_sig").data(), goodbye_code);
+    // void initialize_custom_chat() noexcept {
+    //     // First, make this function do nothing
+    //     const SigByte goodbye_code[] = { 0xC3, 0x90, 0x90, 0x90, 0x90 };
+    //     write_code_s(get_chimera().get_signature("multiplayer_message_sig").data(), goodbye_code);
 
-        // Make the multiplayer hook
-        static Hook chat_hook;
-        write_jmp_call(get_chimera().get_signature("on_multiplayer_chat_sig").data(), chat_hook, nullptr, reinterpret_cast<const void *>(on_chat_message));
+    //     // Make the multiplayer hook
+    //     static Hook chat_hook;
+    //     write_jmp_call(get_chimera().get_signature("on_multiplayer_chat_sig").data(), chat_hook, nullptr, reinterpret_cast<const void *>(on_chat_message));
 
-        // Make the hook for pressing the chat key
-        static Hook chat_key_hook;
-        const void *old_fn;
-        write_function_override(get_chimera().get_signature("chat_open_sig").data(), chat_key_hook, reinterpret_cast<const void *>(on_chat_button), &old_fn);
+    //     // Make the hook for pressing the chat key
+    //     static Hook chat_key_hook;
+    //     const void *old_fn;
+    //     write_function_override(get_chimera().get_signature("chat_open_sig").data(), chat_key_hook, reinterpret_cast<const void *>(on_chat_button), &old_fn);
 
-        // Make the hook for pressing the chat key
-        static Hook key_press_hook;
-        write_jmp_call(get_chimera().get_signature("on_key_press_sig").data(), key_press_hook, nullptr, reinterpret_cast<const void *>(on_chat_input));
+    //     // Make the hook for pressing the chat key
+    //     static Hook key_press_hook;
+    //     write_jmp_call(get_chimera().get_signature("on_key_press_sig").data(), key_press_hook, nullptr, reinterpret_cast<const void *>(on_chat_input));
 
-        add_preframe_event(on_custom_chat_frame);
-        add_pretick_event(check_for_quit_players);
+    //     add_preframe_event(on_custom_chat_frame);
+    //     add_pretick_event(check_for_quit_players);
 
-        // Make the hook for handling kill feed things
-        static Hook kill_feed_hook;
-        write_function_override(get_chimera().get_signature("kill_feed_sig").data(), kill_feed_hook, reinterpret_cast<const void *>(on_kill_feed), &kill_feed_message);
+    //     // Make the hook for handling kill feed things
+    //     static Hook kill_feed_hook;
+    //     write_function_override(get_chimera().get_signature("kill_feed_sig").data(), kill_feed_hook, reinterpret_cast<const void *>(on_kill_feed), &kill_feed_message);
 
-        // Set up the kill feed stuff
-        auto &hud_kill_feed_sig = get_chimera().get_signature("hud_kill_feed_sig");
-        auto &hud_kill_feed_host_kill_sig = get_chimera().get_signature("hud_kill_feed_host_kill_sig");
-        auto &hud_kill_feed_host_betray_sig = get_chimera().get_signature("hud_kill_feed_host_betray_sig");
-        overwrite(hud_kill_feed_sig.data() + 1, reinterpret_cast<int>(static_cast<void (*)(const wchar_t *)>(hud_output_raw)) - reinterpret_cast<int>(hud_kill_feed_sig.data() + 5));
-        overwrite(hud_kill_feed_host_kill_sig.data() + 1, reinterpret_cast<int>(static_cast<void (*)(const wchar_t *)>(hud_output_raw)) - reinterpret_cast<int>(hud_kill_feed_host_kill_sig.data() + 5));
-        overwrite(hud_kill_feed_host_betray_sig.data() + 1, reinterpret_cast<int>(static_cast<void (*)(const wchar_t *)>(hud_output_raw)) - reinterpret_cast<int>(hud_kill_feed_host_betray_sig.data() + 5));
+    //     // Set up the kill feed stuff
+    //     auto &hud_kill_feed_sig = get_chimera().get_signature("hud_kill_feed_sig");
+    //     auto &hud_kill_feed_host_kill_sig = get_chimera().get_signature("hud_kill_feed_host_kill_sig");
+    //     auto &hud_kill_feed_host_betray_sig = get_chimera().get_signature("hud_kill_feed_host_betray_sig");
+    //     overwrite(hud_kill_feed_sig.data() + 1, reinterpret_cast<int>(static_cast<void (*)(const wchar_t *)>(hud_output_raw)) - reinterpret_cast<int>(hud_kill_feed_sig.data() + 5));
+    //     overwrite(hud_kill_feed_host_kill_sig.data() + 1, reinterpret_cast<int>(static_cast<void (*)(const wchar_t *)>(hud_output_raw)) - reinterpret_cast<int>(hud_kill_feed_host_kill_sig.data() + 5));
+    //     overwrite(hud_kill_feed_host_betray_sig.data() + 1, reinterpret_cast<int>(static_cast<void (*)(const wchar_t *)>(hud_output_raw)) - reinterpret_cast<int>(hud_kill_feed_host_betray_sig.data() + 5));
 
-        load_chat_settings();
+    //     load_chat_settings();
 
-        custom_chat_initialized = true;
-    }
+    //     custom_chat_initialized = true;
+    // }
 
-    bool custom_chat_enabled() noexcept {
-        return custom_chat_initialized;
-    }
+    // bool custom_chat_enabled() noexcept {
+    //     return custom_chat_initialized;
+    // }
 
     typedef std::chrono::high_resolution_clock clock;
 
