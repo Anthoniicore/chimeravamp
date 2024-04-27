@@ -629,7 +629,7 @@ namespace Chimera {
             }
 
             // Load the custom chat
-            //initialize_custom_chat();
+            initialize_custom_chat();
 
             // If we're using a custom console, set that up
             if(chimera->get_ini()->get_value_bool("custom_console.enabled").value_or(false)) {
