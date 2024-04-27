@@ -44,11 +44,11 @@ namespace Chimera {
         if(object) {
             set_halo_descoping(object->shield > shield && object->shield > 1.0); // enable regular descoping if overshield is charging
 
-            if(object->health < health || (object->shield < shield && (shield - object->shield) > 0.01)) {
-                if(descope_fix_enabled) {
-                    do_descope(player->object_id);
-                }
-            }
+            // if(object->health < health || (object->shield < shield && (shield - object->shield) > 0.01)) {
+            //     if(descope_fix_enabled) {
+            //         do_descope(player->object_id);
+            //     }
+            // }
 
             health = object->health;
             shield = object->shield;
