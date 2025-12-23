@@ -9,8 +9,6 @@ extern "C" {
     std::uint8_t *using_analog_movement = nullptr;
     std::byte *not_using_analog_movement_jmp = nullptr;
     std::byte *yes_using_analog_movement_jmp = nullptr;
-
-    float *auto_aim_width_addr = nullptr;
     
     void on_aim_assist();
 }
