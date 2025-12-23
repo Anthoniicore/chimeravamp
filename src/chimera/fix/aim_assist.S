@@ -19,7 +19,7 @@ _on_aim_assist:
 force_mouse_magnetism:
     /* Mouse/teclado → forzar magnetismo alto en disparos */
     mov ebx, [_auto_aim_width_addr]
-    mov dword ptr [ebx], 0x3E000000   /* 0.12f */
+    /* mov dword ptr [ebx], 0x3E000000    0.12f */
 
     /* Pero saltar a la rutina de "no analog movement"
        para que no se altere el movimiento del mouse */
