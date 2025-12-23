@@ -6,13 +6,21 @@
 .extern _using_analog_movement
 .extern _not_using_analog_movement_jmp
 .extern _yes_using_analog_movement_jmp
+.extern _auto_aim_width_addr   /* dirección expuesta desde C++ */
 
 _on_aim_assist:
-    /* Read analog movement flag pointer */
     mov eax, [_using_analog_movement]
-    /* Compare byte at that address with 1 */
     cmp byte ptr [eax], 1
+    jnz force_mouse_magnetism
 
-    /* Regardless of input, jump to "yes using analog movement" path
-       to force aim assist enabled for mouse and joystick */
+    /* Joystick → aim assist normal */
     jmp dword ptr [_yes_using_analog_movement_jmp]
+
+force_mouse_magnetism:
+    /* Mouse/teclado → forzar magnetismo alto en disparos */
+    mov ebx, [_auto_aim_width_addr]
+    mov dword ptr [ebx], 0x3E000000   /* 0.12f */
+
+    /* Pero saltar a la rutina de "no analog movement"
+       para que no se altere el movimiento del mouse */
+    jmp dword ptr [_not_using_analog_movement_jmp]
