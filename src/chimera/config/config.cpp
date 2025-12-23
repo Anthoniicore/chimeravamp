@@ -58,11 +58,11 @@ namespace Chimera {
         QueryPerformanceCounter(&pc);
 
         // Make our line thingy
-        static constexpr const std::size_t LEN = 81;
+        static constexpr const std::size_t LEN = 128;
         char saved_with_line[LEN];
         std::memset(saved_with_line, ' ', sizeof(saved_with_line));
         char chimera_version[] = "#   Chimera version " CHIMERA_VERSION_STRING;
-        static_assert(sizeof(chimera_version) < LEN / "out-of-bounds for chimera_version size");
+        static_assert(sizeof(chimera_version) < LEN / 2, "out-of-bounds for chimera_version size");
         std::memcpy(saved_with_line, chimera_version, sizeof(chimera_version) - 1);
 
         // Randomly select a line
