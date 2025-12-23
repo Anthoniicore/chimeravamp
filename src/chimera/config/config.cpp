@@ -63,13 +63,7 @@ namespace Chimera {
         std::memset(saved_with_line, ' ', sizeof(saved_with_line));
         char chimera_version[] = "#   Chimera version " CHIMERA_VERSION_STRING;
         static_assert(sizeof(chimera_version) < LEN / 2, "out-of-bounds for chimera_version size");
-        std::memcpy(saved_with_line, chimera_version, sizeof(chimera_version) - 1);
-
-        // Añadir tu firma personalizada
-        const char *antonio_signature = " - versión modificada por Anthoniicore";
-        std::strncat(saved_with_line, antonio_signature, LEN/2 - sizeof(chimera_version));
-
-        
+        std::memcpy(saved_with_line, chimera_version, sizeof(chimera_version) - 1);    
 
         // Randomly select a line
         const char *random_text;
