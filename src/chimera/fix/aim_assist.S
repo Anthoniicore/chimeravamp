@@ -5,5 +5,5 @@
 .text
 .globl _on_aim_assist
 _on_aim_assist:
-    ; Forzamos siempre el bloque de "sí usar aim assist"
+    ; Forzar siempre el bloque de "sí usar aim assist"
     jmp dword ptr [_yes_using_analog_movement_jmp]
