@@ -36,10 +36,10 @@ namespace Chimera {
 
         if (!*using_analog_movement) {
             *auto_aim_width_addr = 1.50f; // magnetismo fuerte para mouse
-            *auto_aim_range_addr = 0.0f;  // sin corrección de mira en mouse
+            *auto_aim_range_addr = 2.0f;  // sin corrección de mira en mouse
         } else {
-            *auto_aim_width_addr = 0.50f; // valor normal en control
-            *auto_aim_range_addr = 1.0f;  // auto-aim normal en control
+            *auto_aim_width_addr = 1.50f; // valor normal en control
+            *auto_aim_range_addr = 2.0f;  // auto-aim normal en control
         }
     }
 
