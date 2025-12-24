@@ -17,15 +17,18 @@ extern "C" {
 
 namespace Chimera {
     static float *auto_aim_width_addr = nullptr;
+    static float *auto_aim_range_addr = nullptr;
 
-    // Aplica magnetismo fuerte cuando se usa mouse/teclado
+    // Aplica magnetismo fuerte y desactiva auto-aim en mouse
     static void apply_mouse_magnetism() {
-        if (!auto_aim_width_addr || IsBadWritePtr(auto_aim_width_addr, sizeof(float))) return;
+        if (!auto_aim_width_addr || !auto_aim_range_addr) return;
 
         if (!*using_analog_movement) {
             *auto_aim_width_addr = 1.50f; // magnetismo fuerte para mouse
+            *auto_aim_range_addr = 0.0f;  // desactiva auto‑aim en mouse
         } else {
-            *auto_aim_width_addr = 1.50f; // valor normal para control
+            *auto_aim_width_addr = 0.50f; // valor normal para control
+            *auto_aim_range_addr = 1.0f;  // auto‑aim normal en control
         }
     }
 
@@ -43,20 +46,25 @@ namespace Chimera {
         write_function_override(aim_assist, hook, reinterpret_cast<const void *>(on_aim_assist), &old_fn);
 
         // Localiza el float de magnetismo
-        auto &sig = get_chimera().get_signature("auto_aim_width_sig");
-        auto_aim_width_addr = reinterpret_cast<float*>(sig.data());
+        auto &sig_width = get_chimera().get_signature("auto_aim_width_sig");
+        auto_aim_width_addr = reinterpret_cast<float*>(sig_width.data());
 
-        if (!auto_aim_width_addr) {
-            console_error("auto_aim_width_sig no encontró dirección válida");
+        // Localiza el float de auto-aim range
+        auto &sig_range = get_chimera().get_signature("auto_aim_range_sig");
+        auto_aim_range_addr = reinterpret_cast<float*>(sig_range.data());
+
+        if (!auto_aim_width_addr || !auto_aim_range_addr) {
+            console_error("No se encontraron direcciones válidas para auto_aim_width o auto_aim_range");
             return;
         }
 
         console_output("auto_aim_width_addr = %p", auto_aim_width_addr);
+        console_output("auto_aim_range_addr = %p", auto_aim_range_addr);
 
         // Aplica magnetismo fuerte en mouse cada frame
         add_preframe_event(apply_mouse_magnetism);
 
         // Feedback en consola
-        console_output("Magnetismo mouse activo: auto_aim_width parcheado");
+        console_output("Magnetismo mouse activo: auto_aim_width y auto_aim_range parcheados");
     }
 }
