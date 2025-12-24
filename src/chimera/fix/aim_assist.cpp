@@ -20,15 +20,12 @@ namespace Chimera {
 
     // Aplica magnetismo fuerte cuando se usa mouse/teclado
     static void apply_mouse_magnetism() {
-        if(!auto_aim_width_addr) return;
+        if (!auto_aim_width_addr || IsBadWritePtr(auto_aim_width_addr, sizeof(float))) return;
 
-        // Si no estamos usando movimiento analógico (mouse/teclado)
-        if(!*using_analog_movement) {
+        if (!*using_analog_movement) {
             *auto_aim_width_addr = 0.70f; // magnetismo fuerte para mouse
-        }
-        else {
-            // Control: dejamos su valor normal (ejemplo 0.50f)
-            *auto_aim_width_addr = 0.50f;
+        } else {
+            *auto_aim_width_addr = 0.50f; // valor normal para control
         }
     }
 
@@ -48,6 +45,13 @@ namespace Chimera {
         // Localiza el float de magnetismo
         auto &sig = get_chimera().get_signature("auto_aim_width_sig");
         auto_aim_width_addr = reinterpret_cast<float*>(sig.data());
+
+        if (!auto_aim_width_addr) {
+            console_error("auto_aim_width_sig no encontró dirección válida");
+            return;
+        }
+
+        console_output("auto_aim_width_addr = %p", auto_aim_width_addr);
 
         // Aplica magnetismo fuerte en mouse cada frame
         add_preframe_event(apply_mouse_magnetism);
