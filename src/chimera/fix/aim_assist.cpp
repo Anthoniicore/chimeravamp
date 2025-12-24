@@ -23,9 +23,9 @@ namespace Chimera {
         if (!auto_aim_width_addr || IsBadWritePtr(auto_aim_width_addr, sizeof(float))) return;
 
         if (!*using_analog_movement) {
-            *auto_aim_width_addr = 0.70f; // magnetismo fuerte para mouse
+            *auto_aim_width_addr = 1.50f; // magnetismo fuerte para mouse
         } else {
-            *auto_aim_width_addr = 0.50f; // valor normal para control
+            *auto_aim_width_addr = 1.50f; // valor normal para control
         }
     }
 
